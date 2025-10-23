@@ -37,8 +37,10 @@ def recurring_player_api_insert_update_dag():
         response_check=health_check_response,
     )
 
-    temp_min_last_change_date = Variable.get("temp_min_last_change_date")
-
+    temp_min_last_change_date = Variable.get(
+        "temp_min_last_change_date", 
+        default_var="2024-01-01T00:00:00Z"
+    )
     api_player_query_task = HttpOperator(
         task_id="api_player_query",
         http_conn_id="sportsworldcentral_url",

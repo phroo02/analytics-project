@@ -26,14 +26,15 @@ def call_api_endpoint(
 
     try:
         with httpx.Client(base_url=base_url) as client: 
-            logger.debug(f"base_url: {base_url}, api_endpoint: {api_endpoint}, api_params: {api_params}")
+            logger.debug(f"base_url: {base_url}, api_endpoint: {api_endpoint}")
             response = client.get(api_endpoint, params=api_params)
             response.raise_for_status()
             logger.debug(f"Response JSON: {response.json()}")
             return response
     except httpx.HTTPStatusError as e:
-        logger.error(f"HTTP status error occurred: {e.response.status_code} {e.response.text}")
-        return httpx.Response(status_code=e.response.status_code, content=b"API error")
+        logger.error(f"HTTP status error occurred: {e.response.text}")
+        return httpx.Response(status_code=e.response.status_code, 
+                              content=b"API error")
     except httpx.RequestError as e:
         logger.error(f"Request error occurred: {str(e)}")
         return httpx.Response(status_code=500, content=b"Network error")
