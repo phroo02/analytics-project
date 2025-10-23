@@ -1,83 +1,4 @@
-# SportsWorldCentral Data App
-
-This project is a full-stack data application designed to ingest, process, serve, and visualize fantasy football data. It features a FastAPI backend, an Apache Airflow data pipeline for ETL, and a Streamlit dashboard for user-facing analytics.
-
-## Dashboard Preview
-
-The Streamlit front-end provides easy access to team rosters and aggregated statistics.
-
-| Team Rosters Page | Team Stats Page |
-| :---: | :---: |
-| ![Streamlit Roster Page](streamlit/assets/streamlitpage1.jpg) | ![Streamlit Stats Page](streamlit/assets/streamlitpage2.jpg) |
-*(Note: You will need to place your images in a folder like `streamlit/assets/` for them to render)*
-
----
-
-## Core Architecture
-
-The project is built on a 3-tier architecture:
-
-1.  **Backend (FastAPI):** A high-performance API (`api/`) serves as the system's core. It handles CRUD operations and provides data from a transactional SQLite database (`fantasy_data.db`).
-2.  **Data Pipeline (Apache Airflow):** An Airflow instance (`airflow/`) runs scheduled ETL jobs (DAGs). These jobs pull data from the FastAPI backend, process it, and load it into a separate SQLite database (`analytics_database.db`) optimized for analytics.
-3.  **Frontend (Streamlit):** A Streamlit application (`streamlit/`) acts as the user-facing dashboard. It fetches data from the FastAPI backend using a simple HTTP client (`swc_simple_client.py`) and presents it in tables and charts.
-
----
-
-## Tools & Technologies
-
-* **Backend:** FastAPI, Uvicorn, SQLAlchemy (ORM), Pydantic
-* **Frontend:** Streamlit
-* **Data Pipeline:** Apache Airflow, Docker Compose
-* **Database:** SQLite
-* **Data Analysis:** Jupyter, Pandas
-* **Client:** A custom Python client (`swc_simple_client.py`) is used by the Streamlit app and Jupyter notebooks to interact with the API.
-
----
-
-## Project Structure
-
-Here is a high-level overview of the project's file structure and the purpose of each component.
-├── LICENSE
-├── README.md                ← This file
-├── airflow/                 ← Airflow setup and DAGs
-│   ├── airflow/
-│   │   ├── dags/
-│   │   │   ├── recurring_player_api_insert_update_dag.py
-│   │   │   ├── bulk_player_file_load_dag.py
-│   │   │   ├── shared_functions.py
-│   │   │   └── analytics_database.db          ← SQLite database (Airflow target)
-│   │   ├── docker-compose.yaml                ← Airflow deployment
-│   │   ├── logs/                              ← Airflow logs
-│   │   └── plugins/
-│   └── readme.md
-│
-├── api/                     ← FastAPI backend
-│   ├── main.py               ← API entry point
-│   ├── models.py, schemas.py ← ORM models and Pydantic schemas
-│   ├── crud.py               ← Data access layer
-│   ├── database.py           ← SQLite database setup (fantasy_data.db)
-│   ├── requirements.txt
-│   └── tests/                ← API unit tests
-│
-├── streamlit/                ← Streamlit dashboard
-│   ├── streamlit_football_app.py  ← App entry point
-│   ├── page1.py                   ← Team Rosters page
-│   ├── page2.py                   ← Team Stats page
-│   ├── swc_simple_client.py       ← Shared API client (HTTP wrapper)
-│   └── football_app.log
-│
-├── notebooks/                ← Jupyter notebooks for analysis
-│   ├── shark_league_notebook.ipynb
-│   └── swc_simple_client.py  ← Notebook client version
-
-Here is a complete `README.md` file for your project, based on the file structure and images you provided.
-
-You can copy and paste the entire contents of the block below into your `README.md` file.
-
------
-
-```markdown
-# SportsWorldCentral Data App
+# 🏈 SportsWorldCentral Data App
 
 This project is a full-stack data application designed to ingest, process, serve, and visualize fantasy football data. It features a FastAPI backend, an Apache Airflow data pipeline for ETL, and a Streamlit dashboard for user-facing analytics.
 
@@ -117,47 +38,19 @@ The project is built on a 3-tier architecture:
 
 Here is a high-level overview of the project's file structure and the purpose of each component.
 
-```
+## 🧭 Overview
 
-├── LICENSE
-├── README.md               ← This file
-├── airflow/
-│   ├── airflow/
-│   │   ├── dags/
-│   │   │   ├── recurring\_player\_api\_insert\_update\_dag.py  ← Main ETL DAG
-│   │   │   ├── bulk\_player\_file\_load\_dag.py           ← DAG for initial bulk load
-│   │   │   ├── shared\_functions.py                    ← Helper functions for DAGs
-│   │   │   └── analytics\_database.db                ← Target DB for analytics
-│   │   ├── docker-compose.yaml                        ← Airflow deployment (with scheduler, webserver, etc.)
-│   │   ├── logs/
-│   │   └── plugins/
-│   └── readme.md
-│
-├── api/                    ← FastAPI backend
-│   ├── main.py                 ← API entry point (endpoints)
-│   ├── models.py, schemas.py   ← SQLAlchemy models and Pydantic schemas
-│   ├── crud.py                 ← Data access logic (Create, Read, Update, Delete)
-│   ├── database.py             ← DB setup and session management
-│   ├── fantasy\_data.db         ← Transactional DB (source of truth for API)
-│   ├── requirements.txt
-│   └── tests/
-│
-├── streamlit/              ← Streamlit dashboard
-│   ├── streamlit\_football\_app.py   ← App entry point and multipage setup
-│   ├── page1.py                ← Team Rosters page view
-│   ├── page2.py                ← Team Stats page view
-│   ├── swc\_simple\_client.py    ← Client for fetching data from the FastAPI backend
-│   └── football\_app.log
-│
-└── notebooks/              ← Jupyter notebooks for data exploration
-├── shark\_league\_notebook.ipynb
-└── swc\_simple\_client.py    ← Client for notebook analysis
+This platform automates the pipeline for fetching, storing, and analyzing player and team data from **SportsWorldCentral** APIs.
 
-````
+### 🔁 Components:
+| Component | Description |
+|------------|--------------|
+| **Airflow** | Manages data ingestion workflows (DAGs) — pulls player data, performs health checks, and updates a SQLite database. |
+| **API (FastAPI)** | Provides REST endpoints for querying teams, players, performances, and league data. |
+| **Streamlit App** | Interactive dashboard for visualizing team rosters and stats. |
+| **Notebooks** | Jupyter notebooks for prototyping, analysis, and client development. |
 
 ---
-
-## Component Deep-Dive
 
 ### 1. Backend API (FastAPI)
 
@@ -222,4 +115,3 @@ To run the full project, you must start each of the three core components.
 ## License
 
 This project is licensed under the terms of the `LICENSE` file.
-````
