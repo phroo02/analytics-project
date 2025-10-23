@@ -8,7 +8,7 @@ The Streamlit front-end provides easy access to team rosters and aggregated stat
 
 | Team Rosters Page | Team Stats Page |
 | :---: | :---: |
-| ![Streamlit Roster Page](streamlit/assets/streamlitpage1.jpg) | ![Streamlit Stats Page](streamlit/assets/streamlitpage2.jpg) |
+| ![Streamlit Roster Page](pictures/streamlitpage1.jpg) | ![Streamlit Stats Page](pictures/streamlitpage2.jpg) |
 *(Note: You will need to place your images in a folder like `streamlit/assets/` for them to render)*
 
 ---
@@ -68,7 +68,8 @@ Airflow manages all data orchestration (ETL). The setup is containerized using D
     2.  `api_player_query`: An `HttpOperator` that fetches player data from the API's `/v0/players/` endpoint.
     3.  `player_sqlite_upsert`: A `PythonOperator` that takes the JSON data from the previous task and "upserts" (updates or inserts) it into the `analytics_database.db` using the `shared_functions.py`.
 
-    ![Airflow DAG Graph](airflow/assets/airflow1.jpg)
+    ![Airflow DAG Graph](pictures/airflow1.jpg)
+    ![Airflow DAG Graph](pictures/airflow2.jpg)
     *(Note: You will need to place your images in a folder like `airflow/assets/` for them to render)*
 
 * **`bulk_player_file_load_dag.py`**
